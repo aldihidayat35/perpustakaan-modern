@@ -92,9 +92,20 @@ class BookController extends Controller
         return redirect()->route('admin.books.index')->with('success', 'Buku berhasil dihapus.');
     }
 
-    public function show(Book $book): RedirectResponse
+    public function show(Book $book): View
     {
-        return redirect()->route('admin.books.index', ['edit' => $book->id]);
+        $book->load('category');
+        $categories = Category::orderBy('name')->get();
+
+        return view('admin.books.show', compact('book', 'categories'));
+    }
+
+    public function edit(Book $book): View
+    {
+        $book->load('category');
+        $categories = Category::orderBy('name')->get();
+
+        return view('admin.books.edit', compact('book', 'categories'));
     }
 
     public function qrModal(Request $request, Book $book): JsonResponse

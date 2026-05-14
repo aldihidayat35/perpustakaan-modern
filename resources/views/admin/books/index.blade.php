@@ -21,7 +21,7 @@
 
 @push('custom-css')
 <style>
-/.* ── Search Bar ── .*/
+/── Search Bar ──/
 .admin-search-bar {
     background: var(--comic-dark);
     border: 3px solid var(--comic-dark);
@@ -85,165 +85,186 @@
 .admin-search-wrap .form-control {
     padding-left: 40px !important;
 }
-/.* ── Table ── */
-.table tbody tr:hover {
-    background: rgba(255,107,53,0.06) !important;
+
+/── Book List Card ──/
+.book-list-card {
+    border: 3px solid var(--comic-dark) !important;
+    box-shadow: 6px 6px 0 var(--comic-dark) !important;
+    border-radius: 0 !important;
 }
-.table td {
-    vertical-align: middle;
+.book-list-card .card-header {
+    background: var(--comic-dark) !important;
+    border-bottom: 3px solid var(--comic-orange) !important;
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 10px;
 }
-.table .text-gray-800 {
-    font-weight: 800;
+.book-list-card .card-title {
+    font-family: 'Bangers', cursive !important;
+    color: var(--comic-orange) !important;
+    font-size: 1.2rem !important;
+    letter-spacing: 3px !important;
+    margin: 0;
 }
-.card-body-table {
-    overflow-x: auto !important;
-}
-.card-body-table .table {
-    min-width: 100%;
-    white-space: nowrap;
-}
-.card-body-table .table > thead > tr > th:first-child,
-.card-body-table .table > tbody > tr > td:first-child {
-    padding-left: 18px;
-}
-.card-body-table .table > thead > tr > th:last-child,
-.card-body-table .table > tbody > tr > td:last-child {
-    padding-right: 22px;
-}
-/.* ── Toolbar Buttons ── */
-.btn-toolbar-comic {
+
+/── Toolbar Buttons ──/
+.btn-comic {
     background: var(--comic-yellow);
     color: var(--comic-dark);
     border: 2px solid var(--comic-dark);
     box-shadow: 3px 3px 0 var(--comic-dark);
     font-family: 'Fredoka One', cursive;
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     border-radius: 0;
     font-weight: 900;
     letter-spacing: 1px;
-    padding: 8px 14px;
+    padding: 8px 16px;
     transition: all 0.2s ease;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    white-space: nowrap;
 }
-.btn-toolbar-comic:hover {
+.btn-comic:hover {
     background: var(--comic-orange);
     color: #fff;
     transform: translateY(-2px);
     box-shadow: 4px 4px 0 var(--comic-dark);
 }
-.btn-toolbar-green {
+.btn-comic-green {
     background: var(--comic-green);
     color: #fff;
     border: 2px solid var(--comic-dark);
     box-shadow: 3px 3px 0 var(--comic-dark);
     font-family: 'Fredoka One', cursive;
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     border-radius: 0;
     font-weight: 900;
     letter-spacing: 1px;
-    padding: 8px 14px;
+    padding: 8px 16px;
     transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
 }
-.btn-toolbar-green:hover {
+.btn-comic-green:hover {
     background: var(--comic-yellow);
     color: var(--comic-dark);
     transform: translateY(-2px);
     box-shadow: 4px 4px 0 var(--comic-dark);
 }
-.btn-toolbar-blue {
+.btn-comic-blue {
     background: var(--comic-blue);
     color: #fff;
     border: 2px solid var(--comic-dark);
     box-shadow: 3px 3px 0 var(--comic-dark);
     font-family: 'Fredoka One', cursive;
-    font-size: 0.78rem;
+    font-size: 0.75rem;
     border-radius: 0;
     font-weight: 900;
     letter-spacing: 1px;
-    padding: 8px 14px;
+    padding: 8px 16px;
     transition: all 0.2s ease;
     text-decoration: none;
     display: inline-flex;
     align-items: center;
     gap: 6px;
+    white-space: nowrap;
 }
-.btn-toolbar-blue:hover {
+.btn-comic-blue:hover {
     background: var(--comic-yellow);
     color: var(--comic-dark);
     transform: translateY(-2px);
     box-shadow: 4px 4px 0 var(--comic-dark);
 }
-/.* ── Action Buttons ── */
-.btn-action-detail {
+
+/── Table ──/
+.table-comic {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+}
+.table-comic thead tr th {
+    background: var(--comic-cream) !important;
+    border-bottom: 3px solid var(--comic-dark) !important;
+    font-family: 'Fredoka One', cursive !important;
+    font-size: 0.68rem !important;
+    letter-spacing: 2px !important;
+    text-transform: uppercase;
+    color: var(--comic-dark) !important;
+    padding: 12px 16px !important;
+}
+.table-comic tbody tr:hover td {
+    background: rgba(255,107,53,0.06) !important;
+}
+.table-comic tbody tr td {
+    border-bottom: 1px solid rgba(26,26,46,0.08) !important;
+    padding: 10px 16px !important;
+    vertical-align: middle;
+}
+.table-comic tbody tr:last-child td {
+    border-bottom: none !important;
+}
+.card-body-table {
+    overflow-x: auto !important;
+}
+
+/── Action Buttons ──/
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 0;
+    font-weight: 800;
+    font-size: 0.9rem;
+    padding: 0;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+.btn-icon-detail {
     background: #fff;
     border: 2px solid var(--comic-blue);
     box-shadow: 3px 3px 0 var(--comic-blue);
     color: var(--comic-blue);
-    border-radius: 0;
-    font-weight: 800;
-    font-size: 0.8rem;
-    padding: 6px 12px;
-    min-width: 38px;
-    min-height: 34px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
 }
-.btn-action-detail:hover {
+.btn-icon-detail:hover {
     background: var(--comic-blue);
     color: #fff;
     transform: translateY(-2px);
     box-shadow: 4px 4px 0 var(--comic-dark);
 }
-.btn-action-edit {
-    background: var(--comic-orange);
+.btn-icon-edit {
+    background: var(--comic-yellow);
     border: 2px solid var(--comic-dark);
     box-shadow: 3px 3px 0 var(--comic-dark);
-    color: #fff;
-    border-radius: 0;
-    font-weight: 800;
-    font-size: 0.8rem;
-    padding: 6px 12px;
-    min-width: 38px;
-    min-height: 34px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-}
-.btn-action-edit:hover {
-    background: var(--comic-yellow);
     color: var(--comic-dark);
+}
+.btn-icon-edit:hover {
+    background: var(--comic-orange);
+    color: #fff;
     transform: translateY(-2px);
     box-shadow: 4px 4px 0 var(--comic-dark);
 }
-.btn-action-delete {
+.btn-icon-delete {
     background: #fff;
     border: 2px solid var(--comic-red);
     box-shadow: 3px 3px 0 var(--comic-red);
     color: var(--comic-red);
-    border-radius: 0;
-    font-weight: 800;
-    font-size: 0.8rem;
-    padding: 6px 12px;
-    min-width: 38px;
-    min-height: 34px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
 }
-.btn-action-delete:hover {
+.btn-icon-delete:hover {
     background: var(--comic-red);
     color: #fff;
     transform: translateY(-2px);
     box-shadow: 4px 4px 0 var(--comic-dark);
 }
-/.* ── Pagination ── */
+
+/── Pagination ──/
 .admin-pagination {
     display: flex;
     flex-direction: column;
@@ -308,7 +329,8 @@
     letter-spacing: 1px;
     text-transform: uppercase;
 }
-/.* ── Misc ── */
+
+/── Misc ──/
 .result-badge {
     display: inline-flex;
     align-items: center;
@@ -371,32 +393,51 @@
     font-family: 'Fredoka One', cursive;
     text-decoration: none;
 }
+.badge-comic {
+    display: inline-block;
+    padding: 3px 10px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.68rem;
+    letter-spacing: 1px;
+    border: 2px solid currentColor;
+    border-radius: 0;
+}
+.badge-comic-success {
+    background: rgba(78,205,196,0.15);
+    color: var(--comic-blue);
+    border-color: var(--comic-blue);
+}
+.badge-comic-secondary {
+    background: rgba(170,170,170,0.15);
+    color: #888;
+    border-color: #ccc;
+}
 </style>
 @endpush
 
 @section('content')
 {{-- ── Card ── --}}
-<div class="card">
-    <div class="card-header border-0 pt-4 pb-0">
+<div class="card book-list-card">
+    <div class="card-header">
         <div class="card-title">
-            <span class="fw-bold text-white" style="font-family:'Bangers',cursive; letter-spacing:2px; font-size:1.1rem;">📕 DAFTAR BUKU</span>
+            📕 DAFTAR BUKU
         </div>
-        <div class="card-toolbar d-flex align-items-center gap-2">
-            <a href="{{ route('admin.books.create') }}" class="btn-toolbar-comic btn-sm">
-                <i class="ki-duotone ki-plus fs-4" style="color:inherit;"></i> Tambah Buku
+        <div class="d-flex flex-wrap align-items-center gap-2">
+            <a href="{{ route('admin.books.create') }}" class="btn-comic">
+                <i class="ki-duotone ki-plus fs-4"></i> Tambah Buku
             </a>
-            <a href="{{ route('admin.export.books') }}" class="btn-toolbar-blue btn-sm">
-                <i class="ki-duotone ki-tablet-ks fs-4" style="color:inherit;"></i> Export CSV
+            <a href="{{ route('admin.export.books') }}" class="btn-comic-blue">
+                <i class="ki-duotone ki-tablet-ks fs-4"></i> Export CSV
             </a>
             <form method="POST" action="{{ route('admin.books.bulk-qr') }}" class="d-inline">
                 @csrf
-                <button type="submit" class="btn-toolbar-green btn-sm"
+                <button type="submit" class="btn-comic-green"
                     onclick="return confirm('Generate QR Code untuk semua buku yang belum punya?')">
-                    <i class="ki-duotone ki-qrcode fs-4" style="color:inherit;"></i> Generate QR Masal
+                    <i class="ki-duotone ki-qrcode fs-4"></i> Generate QR Masal
                 </button>
             </form>
-            <a href="{{ route('admin.books.bulk-qr.print') }}" target="_blank" class="btn-toolbar-comic btn-sm">
-                <i class="ki-duotone ki-printer fs-4" style="color:var(--comic-dark);"></i> Print All QR
+            <a href="{{ route('admin.books.bulk-qr.print') }}" target="_blank" class="btn-comic">
+                <i class="ki-duotone ki-printer fs-4"></i> Print All QR
             </a>
         </div>
     </div>
@@ -406,7 +447,7 @@
         <form method="GET" action="{{ route('admin.books.index') }}" class="admin-search-bar">
             <div class="row g-3 align-items-end">
                 <div class="col-md-5">
-                    <label class="form-label">🔍 Pencarian</label>
+                    <label class="form-label">Pencarian</label>
                     <div class="admin-search-wrap">
                         <i class="ki-duotone ki-magnifier admin-search-icon"></i>
                         <input type="text" name="search"
@@ -416,7 +457,7 @@
                     </div>
                 </div>
                 <div class="col-md-3">
-                    <label class="form-label">🗂️ Kategori</label>
+                    <label class="form-label">Kategori</label>
                     <select name="category" class="form-select form-select-solid"
                         onchange="this.form.submit()">
                         <option value="">Semua</option>
@@ -429,19 +470,19 @@
                     </select>
                 </div>
                 <div class="col-md-2">
-                    <button type="submit" class="btn" style="
+                    <button type="submit" class="btn w-100" style="
                         background:var(--comic-orange); color:#fff;
                         border:2px solid var(--comic-dark); box-shadow:3px 3px 0 var(--comic-dark);
-                        font-family:'Fredoka One',cursive; font-size:0.9rem;
+                        font-family:'Fredoka One',cursive; font-size:0.85rem;
                         border-radius:0; font-weight:900; letter-spacing:1px; padding:10px 16px;">
                         🔍 CARI
                     </button>
                 </div>
                 <div class="col-md-2">
-                    <a href="{{ route('admin.books.index') }}" class="btn" style="
+                    <a href="{{ route('admin.books.index') }}" class="btn w-100" style="
                         background:rgba(255,255,255,0.1); color:rgba(255,255,255,0.8);
                         border:2px solid rgba(255,255,255,0.4); box-shadow:3px 3px 0 rgba(255,255,255,0.1);
-                        font-family:'Fredoka One',cursive; font-size:0.9rem;
+                        font-family:'Fredoka One',cursive; font-size:0.85rem;
                         border-radius:0; font-weight:900; letter-spacing:1px; padding:10px 16px;
                         text-decoration:none; display:inline-flex; align-items:center; justify-content:center;">
                         ↺ RESET
@@ -465,22 +506,22 @@
         @endif
 
         {{-- Table --}}
-        <div class="table-responsive card-body-table">
-            <table class="table align-middle table-row-dashed fs-6 gy-4">
+        <div class="card-body-table">
+            <table class="table table-comic align-middle gy-3">
                 <thead>
-                    <tr class="text-start text-muted fw-bold fs-7 text-uppercase gs-0">
-                        <th style="min-width:60px;">Sampul</th>
-                        <th style="min-width:100px;">Kode</th>
-                        <th style="min-width:200px;">Judul</th>
-                        <th style="min-width:120px;">Kategori</th>
-                        <th style="min-width:140px;">Penulis</th>
-                        <th style="min-width:60px;">Stok</th>
-                        <th style="min-width:80px;">Status</th>
-                        <th style="min-width:60px;">QR</th>
-                        <th class="text-end" style="min-width:120px;">Aksi</th>
+                    <tr>
+                        <th>Sampul</th>
+                        <th>Kode</th>
+                        <th>Judul</th>
+                        <th>Kategori</th>
+                        <th>Penulis</th>
+                        <th>Stok</th>
+                        <th>Status</th>
+                        <th>QR</th>
+                        <th class="text-end">Aksi</th>
                     </tr>
                 </thead>
-                <tbody class="text-gray-600 fw-semibold">
+                <tbody>
                     @forelse($books as $book)
                     <tr>
                         <td>
@@ -495,42 +536,38 @@
                             @endif
                         </td>
                         <td>
-                            <span class="fw-bold text-dark" style="font-size:0.82rem; font-family:'Fredoka One', cursive; letter-spacing:1px;">
+                            <span style="font-family:'Fredoka One', cursive; font-size:0.8rem; color:var(--comic-dark); letter-spacing:1px;">
                                 {{ $book->book_code }}
                             </span>
                         </td>
                         <td>
                             <a href="{{ route('admin.books.show', $book) }}"
-                                class="text-gray-800 fw-bold text-hover-primary text-decoration-none"
-                                style="font-size:0.88rem;">
-                                {{ Str::limit($book->title, 40) }}
+                                class="fw-bold text-decoration-none"
+                                style="font-size:0.85rem; color:var(--comic-dark);">
+                                {{ Str::limit($book->title, 38) }}
                             </a>
                         </td>
                         <td>
                             @if($book->category)
-                                <span class="badge badge-light-primary"
-                                    style="font-size:0.72rem; border-radius:0; border:2px solid currentColor;">
+                                <span class="badge-comic" style="color:var(--comic-dark); background:var(--comic-cream); border-color:var(--comic-dark);">
                                     {{ $book->category->name }}
                                 </span>
                             @else
-                                <span class="text-muted">-</span>
+                                <span class="text-muted" style="font-size:0.82rem;">-</span>
                             @endif
                         </td>
                         <td>
-                            <span class="text-muted" style="font-size:0.82rem;">
-                                {{ Str::limit($book->author ?? '-', 25) }}
+                            <span style="font-size:0.82rem; color:#666;">
+                                {{ Str::limit($book->author ?? '-', 22) }}
                             </span>
                         </td>
                         <td>
-                            <span style="
-                                font-family:'Bangers',cursive; font-size:1.1rem;
-                                color: {{ $book->stock > 0 ? 'var(--comic-blue)' : 'var(--comic-red)' }};">
+                            <span style="font-family:'Bangers', cursive; font-size:1.15rem; color:{{ $book->stock > 0 ? 'var(--comic-blue)' : 'var(--comic-red)' }};">
                                 {{ $book->stock }}
                             </span>
                         </td>
                         <td>
-                            <span class="badge badge-light-{{ $book->status->value === 'available' ? 'success' : 'secondary' }}"
-                                style="font-size:0.72rem; border-radius:0; border:2px solid currentColor;">
+                            <span class="badge-comic {{ $book->status->value === 'available' ? 'badge-comic-success' : 'badge-comic-secondary' }}">
                                 {{ ucfirst($book->status->value) }}
                             </span>
                         </td>
@@ -546,23 +583,25 @@
                             @endif
                         </td>
                         <td class="text-end">
-                            <a href="{{ route('admin.books.show', $book) }}"
-                                class="btn-action-detail" title="Detail">
-                                <i class="ki-duotone ki-eye fs-4"></i>
-                            </a>
-                            <a href="{{ route('admin.books.show', $book) }}?edit=1"
-                                class="btn-action-edit" title="Edit">
-                                <i class="ki-duotone ki-pencil fs-4"></i>
-                            </a>
-                            <form method="POST"
-                                action="{{ route('admin.books.destroy', $book) }}"
-                                class="d-inline btn-delete-form">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn-action-delete" title="Hapus">
-                                    <i class="ki-duotone ki-trash fs-4"></i>
-                                </button>
-                            </form>
+                            <div class="d-flex gap-1 justify-content-end">
+                                <a href="{{ route('admin.books.show', $book) }}"
+                                    class="btn-icon btn-icon-detail" title="Detail">
+                                    <i class="ki-duotone ki-eye fs-5"></i>
+                                </a>
+                                <a href="{{ route('admin.books.edit', $book) }}"
+                                    class="btn-icon btn-icon-edit" title="Edit">
+                                    <i class="ki-duotone ki-pencil fs-5"></i>
+                                </a>
+                                <form method="POST"
+                                    action="{{ route('admin.books.destroy', $book) }}"
+                                    class="d-inline btn-delete-form">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn-icon btn-icon-delete" title="Hapus">
+                                        <i class="ki-duotone ki-trash fs-5"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     @empty
@@ -570,13 +609,15 @@
                         <td colspan="9">
                             <div class="text-center py-10">
                                 <div style="font-size:3rem; margin-bottom:10px;">📭</div>
-                                <div style="font-family:'Bangers',cursive; font-size:1.2rem; letter-spacing:2px; color:var(--comic-dark);">
+                                <div style="font-family:'Bangers', cursive; font-size:1.2rem; letter-spacing:2px; color:var(--comic-dark);">
                                     BUKU TIDAK DITEMUKAN
                                 </div>
-                                <div class="text-muted fw-bold mt-2" style="font-size:0.85rem;">
+                                <div style="font-size:0.85rem; color:#888; margin-top:8px;">
                                     Coba kata kunci lain atau
                                     <a href="{{ route('admin.books.index') }}"
-                                        class="text-orange fw-bold text-decoration-none">reset pencarian</a>.
+                                        style="color:var(--comic-orange); font-weight:700; text-decoration:none;">
+                                        reset pencarian
+                                    </a>.
                                 </div>
                             </div>
                         </td>
@@ -599,9 +640,9 @@
         <div class="admin-pagination">
             <ul class="pagination">
                 @if($onFirst)
-                    <li><span class="page-btn page-btn-disabled">◀&nbsp;PREV</span></li>
+                    <li><span class="page-btn page-btn-disabled">◀ PREV</span></li>
                 @else
-                    <li><a class="page-btn" href="{{ $books->previousPageUrl() }}">◀&nbsp;PREV</a></li>
+                    <li><a class="page-btn" href="{{ $books->previousPageUrl() }}">◀ PREV</a></li>
                 @endif
 
                 @php
@@ -634,15 +675,15 @@
                 @endif
 
                 @if($onLast)
-                    <li><span class="page-btn page-btn-disabled">NEXT&nbsp;▶</span></li>
+                    <li><span class="page-btn page-btn-disabled">NEXT ▶</span></li>
                 @else
-                    <li><a class="page-btn" href="{{ $books->nextPageUrl() }}">NEXT&nbsp;▶</a></li>
+                    <li><a class="page-btn" href="{{ $books->nextPageUrl() }}">NEXT ▶</a></li>
                 @endif
             </ul>
             <div class="page-info">
-                <span>Halaman {{ $currentPage }} dari {{ $lastPage }}</span>
-                <span>&bull;</span>
-                <span>Total {{ number_format($total) }} buku</span>
+                Halaman {{ $currentPage }} dari {{ $lastPage }}
+                <span style="margin:0 6px;">•</span>
+                Total {{ number_format($total) }} buku
             </div>
         </div>
         @endif
@@ -672,20 +713,6 @@ document.addEventListener('DOMContentLoaded', function () {
             });
         });
     });
-
-    // ── Auto-open edit modal if ?edit=1 ──
-    var params = new URLSearchParams(window.location.search);
-    if (params.get('edit') === '1') {
-        var modal = document.getElementById('modal-edit-book');
-        if (modal) {
-            var bsModal = new bootstrap.Modal(modal);
-            bsModal.show();
-            // Clean URL param after showing modal
-            params.delete('edit');
-            var newUrl = window.location.pathname + (params.toString() ? '?' + params.toString() : '');
-            window.history.replaceState({}, '', newUrl);
-        }
-    }
 });
 </script>
 @endpush

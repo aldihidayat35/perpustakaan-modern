@@ -1,0 +1,21 @@
+<?php
+use App\Http\Requests\Books\StoreBookRequest;
+use App\Services\BookService;
+use Illuminate\Support\Facades\Validator;
+
+$input = [
+    'book_code' => 'BK-TEST-' . time(),
+    'title' => 'Test Book Tinker',
+    'stock' => 5,
+    'status' => 'available',
+];
+
+$request = app(StoreBookRequest::class);
+$request->merge($input);
+
+$validated = $request->validated();
+echo "Validated: " . json_encode($validated) . PHP_EOL;
+
+$service = new BookService();
+$book = $service->create($validated);
+echo "Book created: ID=" . $book->id . " CODE=" . $book->book_code . PHP_EOL;

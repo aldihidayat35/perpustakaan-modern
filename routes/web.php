@@ -46,6 +46,7 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard');
 
     Route::resource('books', BookController::class)->except(['edit']);
+    Route::get('books/{book}/edit', [BookController::class, 'edit'])->name('books.edit');
     Route::get('books/create', [BookController::class, 'create'])->name('books.create');
     Route::get('books/{book}/qr-modal', [BookController::class, 'qrModal'])->name('books.qr-modal');
     Route::post('books/{book}/qr-code', [BookController::class, 'regenerateQrCode'])->name('books.regenerate-qr');

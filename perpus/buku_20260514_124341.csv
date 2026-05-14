@@ -1,0 +1,36 @@
+﻿Kode,ISBN,Judul,Kategori,Penulis,Penerbit,Tahun,Stok,"Lokasi Rak",Status
+FIK-001,978-602-03-1234-5,"Laskar Pelangi",Fiksi,"Andrea Hirata","Bentang Pustaka",2005,5,A1,available
+FIK-002,978-979-22-3456-7,"Bumi Manusia",Fiksi,"Pramoedya Ananta Toer","Hasta Mitra",1980,3,A2,available
+FIK-003,978-602-01-2345-6,"Anak Semua Bangsa",Fiksi,"Pramoedya Ananta Toer","Hasta Mitra",1981,2,A2,available
+FIK-004,978-602-8641-12-3,"Supernova: Ksatria, Puteri, dan Bintang Jatuh",Fiksi,"Dee Lestari","Gagas Media",2016,4,A3,available
+FIK-005,978-979-28-5678-9,"Minggu Ini Kamu Mati",Fiksi,"Nina Ristyani","Gagas Media",2012,3,A3,available
+FIK-006,978-602-03-7654-3,"Gajah Mada: Perang Salib",Fiksi,"Langit Kresna Hariadi","Bentang Pustaka",2015,3,A4,available
+FIK-007,978-602-04-3456-7,"Negeri 5 Menara",Fiksi,"Ahmad Fuadi","Gramedia Pustaka Utama",2009,4,A4,available
+NFK-001,978-602-03-9876-5,"Pendidikan Karakter: Membangun Peradaban Bangsa",Non-Fiksi,"Prof. Dr. Djaelani Harono","Retika AD",2021,5,B1,available
+NFK-002,978-602-04-5678-9,"Metode Penelitian Kualitatif untuk Bisnis dan Sosial",Non-Fiksi,"Prof. Dr. Sugiyono",Alfabeta,2022,3,B1,available
+NFK-003,978-602-386-123-4,"Public Speaking untuk Semua Kalangan",Non-Fiksi,"Dr. Wina Andriani, M.Si","KPG (Kepustakaan Populer Gramedia)",2023,4,B2,available
+SAI-001,978-602-01-8765-4,"Fisika untuk SMA/MA Kelas X","Sains & Teknologi","Mikrajuddin Abdullah","ITB Press",2018,8,C1,available
+SAI-002,978-602-02-3456-7,"Kimia Organik Dasar","Sains & Teknologi","Irwan Stay","Citra Informatika",2020,4,C1,available
+SAI-003,978-602-432-987-6,"Matematika Diskrit dan Aplikasinya","Sains & Teknologi","Dr. Rinaldi Munir","Informatika Bandung",2023,5,C2,available
+SAI-004,978-602-8765-432-1,"Biologi Sel dan Molekuler","Sains & Teknologi","Prof. Dr. Sri Wulandari, M.Si","UB Press",2021,3,C2,available
+SAI-005,978-602-03-2345-6,"Astronomi untuk Pemula","Sains & Teknologi","Prof. Dr. Thomas Djamaluddin","ITB Press",2020,4,C3,available
+SEJ-001,978-602-03-4567-8,"Sejarah Indonesia: Dari Masa Praksara hingga Reformasi",Sejarah,"Khalid bin Jazir","Republik Publishing",2018,4,D1,available
+SEJ-002,978-602-04-7890-1,"Perang Diponegoro 1825-1830",Sejarah,"Peter Care","LIPI Press",2019,2,D1,available
+SEJ-003,978-602-386-543-0,"Indonesia dari Segala Sisi",Sejarah,"Tim Historika","KPG (Kepustakaan Populer Gramedia)",2022,6,D2,available
+BAH-001,978-602-01-5678-9,"Bahasa Indonesia untuk Pergururan Tinggi",Bahasa,"Prof. Dr. E. Zaenal Arifin","Akademika Bandung",2020,7,E1,available
+BAH-002,978-0-19-870025-7,"Oxford Advanced Learner Dictionary",Bahasa,"A.S. Hornby","Oxford University Press",2020,3,E1,available
+BAH-003,978-602-04-2345-6,"TOEFL Preparation: Strategi dan Latihan Soal",Bahasa,"Dr. Hendra Halim, M.Hum","Gramedia Pustaka Utama",2021,5,E2,available
+IT-001,978-602-03-8765-4,"Pemrograman Web dengan Laravel 11","Komputer & IT","Ahmad Luky Ramdhoni","Informatika Bandung",2024,4,F1,available
+IT-002,978-602-04-5671-0,"JavaScript: Dari Pemula hingga Mahir","Komputer & IT","Asep Tisna Wiguna","Elex Media Komputindo",2023,5,F1,available
+IT-003,978-602-386-234-5,"Basis Data dan SQL untuk Pemula","Komputer & IT","Dosen TI UPI","Informatika Bandung",2022,6,F2,available
+IT-004,978-602-8765-123-4,"Membangun Jaringan Komputer Sekolah","Komputer & IT","Tim IT Smarter Indonesia","Andi Publisher",2021,3,F2,available
+IT-005,978-602-04-8901-2,"Desain Grafis dengan Canva untuk Pemula","Komputer & IT","Rina Marlina, S.Ds","Andi Publisher",2023,4,F3,available
+SEN-001,978-602-03-5678-9,"Seni Budaya untuk SMA/MA Kelas X","Seni & Budaya","Dr. Hi. Damsar, M.Si","PT Intan Pariwara",2019,6,G1,available
+SEN-002,978-602-04-8901-2,"Batik: Warisan Budaya Indonesia","Seni & Budaya","Dr. Sri Kuharini","Mata Padi",2020,4,G1,available
+AGM-001,978-602-01-3456-7,"Akhlak dan Mulia: Pendidikan Agama Islam SMA",Agama,"Dr. H. Abdul Hadis, M.Ag","PT Intan Pariwara",2018,8,H1,available
+AGM-002,978-602-04-2345-6,"Mencari Ketenangan dalam Keseharian",Agama,"Ustadz Adi Hidayat, Lc., MA","Genta Pustaka",2022,5,H1,available
+AGM-003,978-602-8765-678-9,"Mari Membaca Al-Quran",Agama,"Ustadz H. Muhammad Darwis, Lc","Genta Pustaka",2019,6,H2,available
+OHR-001,978-602-03-4567-8,"Pendidikan Jasmani, Olahraga, dan Kesehatan SMA Kelas X",Olahraga,"Dr. Cony Lina Hutapea, M.Or","PT Intan Pariwara",2019,10,I1,available
+OHR-002,978-602-04-6789-0,"Bola Voli: Teknik, Taktik, dan Strategi",Olahraga,"Eko Prihartanto, S.Pd","Andi Publisher",2021,4,I1,available
+KMK-001,978-602-03-9012-3,"Komik Sains: Eksplorasi Alam Semesta",Komik,"Tim GEA","KPG (Kepustakaan Populer Gramedia)",2022,6,J1,available
+KMK-002,978-602-04-1234-5,"Peto dan Peti: Kisah Tanah Jawa",Komik,"Mas Rangga","Elex Media Komputindo",2020,5,J1,available
