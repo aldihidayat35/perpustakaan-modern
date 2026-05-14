@@ -214,52 +214,62 @@
 }
 
 /── Action Buttons ──/
-.btn-icon {
+.action-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: flex-end;
+}
+.action-btn {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
+    gap: 6px;
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.7rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    padding: 6px 14px;
     border-radius: 0;
-    font-weight: 800;
-    font-size: 0.9rem;
-    padding: 0;
+    border: 2.5px solid;
     transition: all 0.2s ease;
     text-decoration: none;
+    white-space: nowrap;
 }
-.btn-icon-detail {
-    background: #fff;
-    border: 2px solid var(--comic-blue);
-    box-shadow: 3px 3px 0 var(--comic-blue);
+.action-btn-detail {
+    background: var(--comic-cream);
     color: var(--comic-blue);
+    border-color: var(--comic-blue);
+    box-shadow: 3px 3px 0 var(--comic-blue);
 }
-.btn-icon-detail:hover {
+.action-btn-detail:hover {
     background: var(--comic-blue);
     color: #fff;
     transform: translateY(-2px);
     box-shadow: 4px 4px 0 var(--comic-dark);
 }
-.btn-icon-edit {
+.action-btn-edit {
     background: var(--comic-yellow);
-    border: 2px solid var(--comic-dark);
-    box-shadow: 3px 3px 0 var(--comic-dark);
     color: var(--comic-dark);
+    border-color: var(--comic-dark);
+    box-shadow: 3px 3px 0 var(--comic-dark);
 }
-.btn-icon-edit:hover {
+.action-btn-edit:hover {
     background: var(--comic-orange);
     color: #fff;
+    border-color: var(--comic-orange);
     transform: translateY(-2px);
     box-shadow: 4px 4px 0 var(--comic-dark);
 }
-.btn-icon-delete {
-    background: #fff;
-    border: 2px solid var(--comic-red);
-    box-shadow: 3px 3px 0 var(--comic-red);
+.action-btn-delete {
+    background: var(--comic-cream);
     color: var(--comic-red);
+    border-color: var(--comic-red);
+    box-shadow: 3px 3px 0 var(--comic-red);
 }
-.btn-icon-delete:hover {
+.action-btn-delete:hover {
     background: var(--comic-red);
     color: #fff;
+    border-color: var(--comic-red);
     transform: translateY(-2px);
     box-shadow: 4px 4px 0 var(--comic-dark);
 }
@@ -490,7 +500,7 @@
                 </div>
             </div>
         </form>
-
+<br>
         {{-- Result Info --}}
         @if(request('search') || request('category'))
         <div>
@@ -504,7 +514,7 @@
             </span>
         </div>
         @endif
-
+<br>
         {{-- Table --}}
         <div class="card-body-table">
             <table class="table table-comic align-middle gy-3">
@@ -583,22 +593,22 @@
                             @endif
                         </td>
                         <td class="text-end">
-                            <div class="d-flex gap-1 justify-content-end">
+                            <div class="action-group">
                                 <a href="{{ route('admin.books.show', $book) }}"
-                                    class="btn-icon btn-icon-detail" title="Detail">
-                                    <i class="ki-duotone ki-eye fs-5"></i>
+                                    class="action-btn action-btn-detail" title="Detail">
+                                    <i class="ki-duotone ki-eye fs-5"></i> Detail
                                 </a>
                                 <a href="{{ route('admin.books.edit', $book) }}"
-                                    class="btn-icon btn-icon-edit" title="Edit">
-                                    <i class="ki-duotone ki-pencil fs-5"></i>
+                                    class="action-btn action-btn-edit" title="Edit">
+                                    <i class="ki-duotone ki-pencil fs-5"></i> Edit
                                 </a>
                                 <form method="POST"
                                     action="{{ route('admin.books.destroy', $book) }}"
                                     class="d-inline btn-delete-form">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn-icon btn-icon-delete" title="Hapus">
-                                        <i class="ki-duotone ki-trash fs-5"></i>
+                                    <button type="submit" class="action-btn action-btn-delete" title="Hapus">
+                                        <i class="ki-duotone ki-trash fs-5"></i> Hapus
                                     </button>
                                 </form>
                             </div>
