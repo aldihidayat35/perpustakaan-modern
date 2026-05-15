@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Models;
 
+use App\Enums\BorrowingDetailStatus;
 use App\Enums\BorrowingStatus;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -15,6 +16,7 @@ class Borrowing extends Model
     protected $fillable = [
         'transaction_code',
         'member_id',
+        'user_id',
         'loan_date',
         'due_date',
         'return_date',
@@ -34,6 +36,11 @@ class Borrowing extends Model
         return $this->belongsTo(Member::class);
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function details(): HasMany
     {
         return $this->hasMany(BorrowingDetail::class);
@@ -49,9 +56,25 @@ class Borrowing extends Model
         return $this->hasOne(Fine::class);
     }
 
+    /**
+     * Buku yang belum dikembalikan
+     */
+    public function activeDetails(): HasMany
+    {
+        return $this->details()->where('status', BorrowingDetailStatus::Borrowed);
+    }
+
+    /**
+     * Buku yang sudah dikembalikan
+     */
+    public function returnedDetails(): HasMany
+    {
+        return $this->details()->where('status', BorrowingDetailStatus::Returned);
+    }
+
     public function isOverdue(): bool
     {
-        if (!$this->due_date) {
+        if (! $this->due_date) {
             return false;
         }
 
@@ -60,9 +83,20 @@ class Borrowing extends Model
 
     public function daysOverdue(): int
     {
-        if (!$this->isOverdue()) {
+        if (! $this->isOverdue()) {
             return 0;
         }
+
         return (int) $this->due_date->diffInDays(now());
+    }
+
+    public function hasUnreturnedBooks(): bool
+    {
+        return $this->details()->where('status', BorrowingDetailStatus::Borrowed)->exists();
+    }
+
+    public function isFullyReturned(): bool
+    {
+        return $this->details()->where('status', BorrowingDetailStatus::Borrowed)->count() === 0;
     }
 }

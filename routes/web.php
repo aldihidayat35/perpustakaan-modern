@@ -2,21 +2,22 @@
 
 declare(strict_types=1);
 
+use App\Http\Controllers\Admin\AuditLogController;
 use App\Http\Controllers\Admin\BookController;
 use App\Http\Controllers\Admin\BorrowingController;
-use App\Http\Controllers\Admin\DashboardController;
-use App\Http\Controllers\Admin\MemberController;
-use App\Http\Controllers\Admin\ReturnController;
-use App\Http\Controllers\Admin\QrScanController;
+use App\Http\Controllers\Admin\BorrowingLookupController;
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\Admin\UserController;
-use App\Http\Controllers\Admin\FineController;
-use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ExportController;
-use App\Http\Controllers\Admin\AuditLogController;
-use App\Http\Controllers\Admin\SettingController;
-use App\Http\Controllers\Admin\WhatsAppSettingsController;
+use App\Http\Controllers\Admin\FineController;
 use App\Http\Controllers\Admin\HeroSlideController;
+use App\Http\Controllers\Admin\MemberController;
+use App\Http\Controllers\Admin\QrScanController;
+use App\Http\Controllers\Admin\ReportController;
+use App\Http\Controllers\Admin\ReturnController;
+use App\Http\Controllers\Admin\SettingController;
+use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\WhatsAppSettingsController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\LandingPageController;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +33,7 @@ Route::get('/login-redirect', function () {
     if (Auth::check()) {
         return redirect()->route('admin.dashboard');
     }
+
     return redirect()->route('login');
 })->name('home');
 
@@ -66,8 +68,17 @@ Route::middleware('auth')->prefix('admin')->name('admin.')->group(function () {
     Route::post('fines/{fine}/mark-as-unpaid', [FineController::class, 'markAsUnpaid'])->name('fines.mark-as-unpaid');
 
     Route::get('borrowings', [BorrowingController::class, 'index'])->name('borrowings.index');
+    Route::get('borrowings/create', [BorrowingController::class, 'create'])->name('borrowings.create');
     Route::post('borrowings', [BorrowingController::class, 'store'])->name('borrowings.store');
     Route::post('borrowings/{borrowing}/remind', [BorrowingController::class, 'remind'])->name('borrowings.remind');
+    Route::get('borrowings/{borrowing}/receipt', [BorrowingController::class, 'receipt'])->name('borrowings.receipt');
+    Route::get('borrowings/{borrowing}/receipt/pdf', [BorrowingController::class, 'receiptPdf'])->name('borrowings.receipt.pdf');
+
+    // ── Lookup Routes (for QR scanning) — NO AUTH MIDDLEWARE ──
+    Route::get('borrowings/lookup-member', [BorrowingLookupController::class, 'lookupMember'])
+        ->withoutMiddleware(['auth', 'verified']);
+    Route::get('borrowings/lookup-book', [BorrowingLookupController::class, 'lookupBook'])
+        ->withoutMiddleware(['auth', 'verified']);
 
     Route::get('scan', [QrScanController::class, 'index'])->name('scan.index');
 

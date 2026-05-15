@@ -11,30 +11,45 @@ use App\Models\Book;
 use App\Models\Borrowing;
 use App\Models\Member;
 use App\Services\BorrowingService;
+use App\Services\ReceiptService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class BorrowingController extends Controller
 {
+    public function __construct(
+        private readonly BorrowingService $borrowingService,
+        private readonly ReceiptService $receiptService,
+    ) {}
+
     public function index(Request $request): View
     {
         $statusParam = $request->query('status');
+        $searchMember = $request->query('member');
 
         $query = Borrowing::with(['member', 'details.book']);
 
-        // Status filter
         if ($statusParam && BorrowingStatus::tryFrom($statusParam)) {
             $query->where('status', $statusParam);
+        }
+
+        if ($searchMember) {
+            $query->whereHas('member', fn ($q) => $q
+                ->where('name', 'like', "%{$searchMember}%")
+                ->orWhere('member_code', 'like', "%{$searchMember}%"));
         }
 
         $borrowings = $query->latest()->paginate(10)->withQueryString();
 
         // Count per status for filter badges
-        $totalAll     = Borrowing::count();
-        $countActive  = Borrowing::where('status', BorrowingStatus::Active)->count();
-        $countLate    = Borrowing::where('status', BorrowingStatus::Late)->count();
+        $totalAll = Borrowing::count();
+        $countActive = Borrowing::where('status', BorrowingStatus::Active)->count();
+        $countLate = Borrowing::where('status', BorrowingStatus::Late)->count();
         $countReturned = Borrowing::where('status', BorrowingStatus::Returned)->count();
 
         $members = Member::orderBy('name')->get();
@@ -42,34 +57,107 @@ class BorrowingController extends Controller
 
         return view('admin.borrowings.index', compact(
             'borrowings', 'members', 'books',
-            'statusParam', 'totalAll', 'countActive', 'countLate', 'countReturned'
+            'statusParam', 'totalAll', 'countActive', 'countLate', 'countReturned', 'searchMember'
         ));
     }
 
-    public function store(StoreBorrowingRequest $request, BorrowingService $service): RedirectResponse
+    /**
+     * Halaman create borrowing — step-by-step wizard
+     */
+    public function create(): View
     {
-        $member = Member::findOrFail($request->integer('member_id'));
-        $bookIds = $request->input('book_ids', []);
+        $members = Member::orderBy('name')->get();
+        $loanDuration = $this->borrowingService->getLoanDuration();
+        $defaultDueDate = $this->borrowingService->getDefaultDueDate()->toDateString();
 
-        $service->createBorrowing(
-            $member,
-            $bookIds,
-            Carbon::parse($request->input('due_date')),
-            $request->input('notes')
-        );
-
-        return redirect()->route('admin.borrowings.index')->with('success', 'Peminjaman berhasil disimpan.');
+        return view('admin.borrowings.create', compact(
+            'members', 'loanDuration', 'defaultDueDate'
+        ));
     }
 
-    public function remind(Borrowing $borrowing, BorrowingService $service): RedirectResponse
+    public function store(StoreBorrowingRequest $request): RedirectResponse|JsonResponse
+    {
+        try {
+            $member = Member::findOrFail($request->integer('member_id'));
+            $dueDate = $request->has('due_date')
+                ? Carbon::parse($request->input('due_date'))
+                : null;
+
+            $borrowing = $this->borrowingService->createBorrowing(
+                $member,
+                $request->input('book_ids', []),
+                $dueDate,
+                $request->input('notes')
+            );
+
+            if ($request->wantsJson()) {
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Peminjaman berhasil disimpan.',
+                    'data' => [
+                        'borrowing_id' => $borrowing->id,
+                        'transaction_code' => $borrowing->transaction_code,
+                        'receipt_url' => route('admin.borrowings.receipt', $borrowing),
+                    ],
+                ], 201);
+            }
+
+            return redirect()
+                ->route('admin.borrowings.receipt', $borrowing)
+                ->with('success', 'Peminjaman berhasil disimpan. Silakan cetak struk.');
+
+        } catch (ValidationException $e) {
+            if ($request->wantsJson()) {
+                return response()->json(['success' => false, 'errors' => $e->errors()], 422);
+            }
+
+            return redirect()->back()
+                ->withErrors($e->errors())
+                ->withInput();
+        } catch (\Exception $e) {
+            if ($request->wantsJson()) {
+                return response()->json(['success' => false, 'error' => $e->getMessage()], 500);
+            }
+
+            return redirect()->back()
+                ->with('error', $e->getMessage())
+                ->withInput();
+        }
+    }
+
+    public function remind(Borrowing $borrowing): RedirectResponse
     {
         if ($borrowing->status !== BorrowingStatus::Active) {
             return redirect()->route('admin.borrowings.index')->with('error', 'Transaksi sudah selesai.');
         }
 
-        $sent = $service->sendReminder($borrowing);
+        $sent = $this->borrowingService->sendReminder($borrowing);
 
         return redirect()->route('admin.borrowings.index')
             ->with($sent ? 'success' : 'error', $sent ? 'Reminder WhatsApp terkirim.' : 'Gagal mengirim reminder.');
+    }
+
+    /**
+     * Show receipt page after successful borrowing
+     */
+    public function receipt(Borrowing $borrowing): View
+    {
+        $borrowing->load(['member', 'details.book']);
+
+        if (request()->wantsJson()) {
+            $data = $this->receiptService->generateReceiptData($borrowing);
+
+            return response()->json(['success' => true, 'data' => $data]);
+        }
+
+        return view('admin.borrowings.receipt-page', compact('borrowing'));
+    }
+
+    /**
+     * Download receipt as PDF
+     */
+    public function receiptPdf(Borrowing $borrowing): StreamedResponse
+    {
+        return $this->receiptService->downloadPdf($borrowing);
     }
 }

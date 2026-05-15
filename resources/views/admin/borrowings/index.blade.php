@@ -17,7 +17,7 @@
 
 @push('custom-css')
 <style>
-/* ── Compact Status Filter Pills (inline in toolbar) ── */
+/* ── Status Filter Pills ── */
 .status-filter-pills {
     display: flex;
     align-items: center;
@@ -70,6 +70,44 @@
     background: var(--comic-yellow);
     color: var(--comic-dark);
 }
+
+/* ── Action Buttons ── */
+.btn-action {
+    min-width: 32px;
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0 !important;
+    font-family: 'Fredoka One', cursive !important;
+    font-size: 0.75rem !important;
+    font-weight: 900 !important;
+    letter-spacing: 1px;
+    padding: 5px 9px !important;
+    transition: all 0.2s ease;
+    border: 2px solid var(--comic-dark) !important;
+    box-shadow: 2px 2px 0 var(--comic-dark) !important;
+}
+.btn-action-sm { min-width: 28px; min-height: 28px; padding: 3px 7px !important; font-size: 0.7rem !important; }
+
+/* ── Search Box ── */
+.search-member-input {
+    border: 2px solid rgba(255,255,255,0.3) !important;
+    background: rgba(255,255,255,0.08) !important;
+    color: #fff !important;
+    font-weight: 800 !important;
+    font-size: 0.82rem !important;
+    border-radius: 0 !important;
+    padding: 7px 12px !important;
+    box-shadow: none !important;
+}
+.search-member-input::placeholder { color: rgba(255,255,255,0.45) !important; }
+.search-member-input:focus {
+    border-color: var(--comic-orange) !important;
+    background: rgba(255,255,255,0.12) !important;
+    outline: none !important;
+    box-shadow: 0 0 0 3px rgba(255,107,53,0.25) !important;
+}
 </style>
 @endpush
 
@@ -80,7 +118,29 @@
         <div class="card-title">
             <span class="fw-bold text-white" style="font-family:'Bangers',cursive; letter-spacing:2px; font-size:1.1rem;">📤 DAFTAR PEMINJAMAN</span>
         </div>
-        <div class="card-toolbar d-flex align-items-center gap-2">
+        <div class="card-toolbar d-flex align-items-center gap-2 flex-wrap">
+            {{-- Search by Member ── --}}
+            <form method="GET" action="{{ route('admin.borrowings.index') }}" class="d-flex gap-1 align-items-center">
+                <input type="hidden" name="status" value="{{ $statusParam }}">
+                <input type="text" name="member" class="search-member-input"
+                    placeholder="🔍 Cari anggota..." value="{{ $searchMember ?? '' }}"
+                    style="width: 150px;">
+                <button type="submit" class="btn btn-sm"
+                    style="background:var(--comic-orange); border:2px solid var(--comic-dark); box-shadow:2px 2px 0 var(--comic-dark); color:#fff; border-radius:0 !important; padding:7px 12px !important; font-family:'Fredoka One',cursive !important; font-size:0.78rem !important; font-weight:900 !important;">
+                    <i class="ki-duotone ki-magnifier fs-5" style="color:#fff !important;"></i>
+                </button>
+                @if($searchMember)
+                    <a href="{{ route('admin.borrowings.index', ['status' => $statusParam]) }}"
+                        class="btn btn-sm"
+                        style="background:#fff; border:2px solid var(--comic-red); box-shadow:2px 2px 0 var(--comic-red); color:var(--comic-red); border-radius:0 !important; padding:7px 10px !important; font-family:'Fredoka One',cursive !important; font-size:0.75rem !important; font-weight:900 !important;"
+                        title="Clear">
+                        <i class="ki-duotone ki-cross fs-5" style="color:var(--comic-red) !important;"></i>
+                    </a>
+                @endif
+            </form>
+
+            <div style="width:1px; height:28px; background:rgba(255,255,255,0.2); margin:0 4px;"></div>
+
             {{-- Status Filter Pills ── --}}
             <div class="status-filter-pills">
                 <a href="{{ route('admin.borrowings.index') }}"
@@ -107,14 +167,17 @@
 
             <div style="width:1px; height:28px; background:rgba(255,255,255,0.2); margin:0 4px;"></div>
 
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal-add-borrowing">
-                <i class="ki-duotone ki-plus fs-2"></i> Tambah
-            </button>
+            {{-- Tombol Tambah Pinjaman → ke halaman create --}}
+            <a href="{{ route('admin.borrowings.create') }}"
+                class="btn btn-primary d-flex align-items-center gap-1"
+                style="background:var(--comic-yellow) !important; border-color:var(--comic-dark) !important; box-shadow:3px 3px 0 var(--comic-dark) !important; color:var(--comic-dark) !important; border-radius:0 !important; font-family:'Fredoka One',cursive !important; font-weight:900 !important; padding:9px 16px !important;">
+                <i class="ki-duotone ki-plus fs-4" style="color:var(--comic-dark) !important;"></i>
+                Tambah Pinjaman
+            </a>
         </div>
     </div>
 
     <div class="card-body py-4 px-4">
-
         {{-- Table --}}
         <div class="comic-table-wrap">
             <table class="table align-middle table-row-dashed fs-6 gy-4">
@@ -126,7 +189,7 @@
                         <th style="min-width:110px;">Tgl Pinjam</th>
                         <th style="min-width:110px;">Jatuh Tempo</th>
                         <th style="min-width:80px;">Status</th>
-                        <th class="text-end" style="min-width:100px;">Aksi</th>
+                        <th class="text-end" style="min-width:120px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody class="text-gray-600 fw-semibold">
@@ -134,15 +197,23 @@
                     <tr>
                         <td>
                             <span class="fw-bold text-dark" style="font-size:0.82rem;">{{ $borrowing->transaction_code }}</span>
+                            <div class="text-muted" style="font-size:0.7rem; font-weight:700;">{{ $borrowing->details->count() }} buku</div>
                         </td>
                         <td>
                             <div class="d-flex align-items-center gap-2">
-                                <div class="symbol symbol-35px flex-shrink-0">
-                                    <div class="symbol-label fs-5 fw-bold"
-                                        style="background:var(--comic-cream); color:var(--comic-dark); border:2px solid var(--comic-dark);">
-                                        {{ strtoupper(substr($borrowing->member->name, 0, 1)) }}
+                                @if($borrowing->member->photo)
+                                    <div class="symbol symbol-35px flex-shrink-0">
+                                        <img src="{{ asset('storage/' . $borrowing->member->photo) }}" alt="{{ $borrowing->member->name }}"
+                                            class="symbol-label" style="object-fit:cover;">
                                     </div>
-                                </div>
+                                @else
+                                    <div class="symbol symbol-35px flex-shrink-0">
+                                        <div class="symbol-label fs-5 fw-bold"
+                                            style="background:var(--comic-cream); color:var(--comic-dark); border:2px solid var(--comic-dark);">
+                                            {{ strtoupper(substr($borrowing->member->name, 0, 1)) }}
+                                        </div>
+                                    </div>
+                                @endif
                                 <div>
                                     <span class="fw-bold text-dark d-block" style="font-size:0.85rem;">{{ $borrowing->member->name }}</span>
                                     <span class="text-muted" style="font-size:0.72rem;">{{ $borrowing->member->member_code }}</span>
@@ -152,12 +223,15 @@
                         <td>
                             <ul class="mb-0 ps-3" style="list-style:none; padding:0;">
                                 @foreach($borrowing->details->take(2) as $detail)
-                                    <li style="font-size:0.8rem; color:#555; font-weight:700;">
-                                        📕 {{ Str::limit($detail->book->title, 28) }}
+                                    <li style="font-size:0.8rem; color:#555; font-weight:700; display:flex; align-items:center; gap:4px;">
+                                        <span style="font-size:0.75rem;">📕</span>
+                                        {{ Str::limit($detail->book->title, 28) }}
                                     </li>
                                 @endforeach
                                 @if($borrowing->details->count() > 2)
-                                    <li style="font-size:0.75rem; color:#aaa; font-weight:700;">+{{ $borrowing->details->count() - 2 }} buku lagi</li>
+                                    <li style="font-size:0.75rem; color:#aaa; font-weight:700;">
+                                        +{{ $borrowing->details->count() - 2 }} buku lagi
+                                    </li>
                                 @endif
                             </ul>
                         </td>
@@ -165,11 +239,22 @@
                             <span class="text-muted" style="font-size:0.82rem;">{{ $borrowing->loan_date->format('d M Y') }}</span>
                         </td>
                         <td>
-                            @if($borrowing->status->value === 'late')
+                            @if($borrowing->status->value === 'late' || $borrowing->isOverdue())
                                 <span class="fw-bold text-danger" style="font-size:0.82rem;">{{ $borrowing->due_date->format('d M Y') }}</span>
-                                <div><span class="badge badge-light-danger" style="font-size:0.65rem; border-radius:0 !important;">⚠️ Terlambat</span></div>
+                                <div>
+                                    <span class="badge badge-light-danger" style="font-size:0.65rem; border-radius:0 !important;">
+                                        ⚠️ Terlambat {{ $borrowing->daysOverdue() }} hr
+                                    </span>
+                                </div>
                             @else
                                 <span class="text-muted" style="font-size:0.82rem;">{{ $borrowing->due_date->format('d M Y') }}</span>
+                                <div>
+                                    @php $daysLeft = (int) $borrowing->due_date->diffInDays(now()); @endphp
+                                    <span class="badge {{ $daysLeft <= 2 ? 'badge-light-warning' : 'badge-light-info' }}"
+                                        style="font-size:0.65rem; border-radius:0 !important;">
+                                        {{ $daysLeft }} hari lagi
+                                    </span>
+                                </div>
                             @endif
                         </td>
                         <td>
@@ -181,16 +266,39 @@
                                 ];
                                 $s = $statusMap[$borrowing->status->value] ?? ['class' => 'badge-light-secondary', 'text' => ucfirst($borrowing->status->value)];
                             @endphp
-                            <span class="badge {{ $s['class'] }}" style="font-size:0.72rem;">{{ $s['text'] }}</span>
+                            <span class="badge {{ $s['class'] }}" style="font-size:0.72rem; border-radius:0 !important; border:2px solid currentColor !important;">{{ $s['text'] }}</span>
                         </td>
                         <td class="text-end">
-                            <form method="POST" action="{{ route('admin.borrowings.remind', $borrowing) }}" class="d-inline">
-                                @csrf
-                                <button type="submit" class="btn btn-comic" style="padding:5px 10px !important; font-size:0.72rem !important;" title="Kirim Reminder WA">
-                                    <i class="ki-duotone ki-message-text fs-4" style="color:#fff !important;"></i>
-                                    WA
-                                </button>
-                            </form>
+                            <div class="d-flex justify-content-end gap-1 flex-wrap">
+                                {{-- Detail Button --}}
+                                <a href="{{ route('admin.borrowings.receipt', $borrowing) }}"
+                                    class="btn btn-action btn-action-sm"
+                                    style="background:#fff; color:var(--comic-dark);"
+                                    title="Lihat Struk">
+                                    <i class="ki-duotone ki-bill fs-5" style="color:var(--comic-dark) !important;"></i>
+                                </a>
+
+                                {{-- Reminder WA (hanya aktif) --}}
+                                @if($borrowing->status->value === 'active')
+                                    <form method="POST" action="{{ route('admin.borrowings.remind', $borrowing) }}" class="d-inline">
+                                        @csrf
+                                        <button type="submit" class="btn btn-action btn-action-sm"
+                                            style="background:#25D366; color:#fff; border-color:#25D366 !important;"
+                                            title="Kirim Reminder WA"
+                                            onclick="return confirm('Kirim reminder WhatsApp ke {{ $borrowing->member->name }}?')">
+                                            <i class="ki-duotone ki-message-text fs-5" style="color:#fff !important;"></i>
+                                        </button>
+                                    </form>
+                                @endif
+
+                                {{-- Download PDF --}}
+                                <a href="{{ route('admin.borrowings.receipt.pdf', $borrowing) }}"
+                                    class="btn btn-action btn-action-sm"
+                                    style="background:#fff; color:var(--comic-orange);"
+                                    title="Download PDF" target="_blank">
+                                    <i class="ki-duotone ki-file-down fs-5" style="color:var(--comic-orange) !important;"></i>
+                                </a>
+                            </div>
                         </td>
                     </tr>
                     @empty
@@ -199,7 +307,21 @@
                             <div class="comic-empty">
                                 <span class="empty-emoji">📤</span>
                                 <div class="empty-title">TIDAK ADA PEMINJAMAN</div>
-                                <div class="empty-sub">Mulai dengan menambah transaksi peminjaman baru</div>
+                                <div class="empty-sub">
+                                    @if($searchMember)
+                                        Tidak ditemukan dengan kata kunci "{{ $searchMember }}"
+                                    @else
+                                        Mulai dengan menambahkan transaksi peminjaman baru
+                                    @endif
+                                </div>
+                                @if(!$searchMember)
+                                <a href="{{ route('admin.borrowings.create') }}"
+                                    class="btn btn-comic mt-3"
+                                    style="font-family:'Fredoka One', cursive !important; font-weight:900 !important;">
+                                    <i class="ki-duotone ki-plus fs-4" style="color:#fff !important;"></i>
+                                    Tambah Pinjaman
+                                </a>
+                                @endif
                             </div>
                         </td>
                     </tr>
@@ -211,69 +333,19 @@
         @include('layouts.partials._pagination', ['paginator' => $borrowings])
     </div>
 </div>
-
-{{-- Modal Tambah Peminjaman --}}
-<div class="modal fade" id="modal-add-borrowing" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered mw-900px">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="fw-bold" style="font-family:'Bangers',cursive; letter-spacing:2px;">
-                    📤 TAMBAH PEMINJAMAN
-                </h2>
-                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-                    <i class="ki-duotone ki-cross fs-1"><span class="path1"></span><span class="path2"></span></i>
-                </div>
-            </div>
-            <form class="form" method="POST" action="{{ route('admin.borrowings.store') }}">
-                @csrf
-                <div class="modal-body">
-                    <div class="row g-4">
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">👤 Anggota</label>
-                            <select name="member_id" class="form-select" required>
-                                <option value="">— Pilih Anggota —</option>
-                                @foreach($members as $member)
-                                    <option value="{{ $member->id }}">{{ $member->name }} ({{ $member->member_code }})</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <label class="form-label fw-bold">📅 Tanggal Kembali</label>
-                            <input type="date" name="due_date" class="form-control" value="{{ now()->addDays(7)->toDateString() }}" required/>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label fw-bold">📕 Pilih Buku</label>
-                            <select name="book_ids[]" class="form-select" multiple required size="6">
-                                @foreach($books as $book)
-                                    <option value="{{ $book->id }}" {{ $book->stock <= 0 ? 'disabled' : '' }}>
-                                        {{ $book->title }} (Stok: {{ $book->stock }})
-                                    </option>
-                                @endforeach
-                            </select>
-                            <div class="form-text text-muted" style="font-size:0.75rem; font-weight:700;">Tahan Ctrl/Cmd untuk memilih lebih dari satu buku.</div>
-                        </div>
-                        <div class="col-12">
-                            <label class="form-label fw-bold">📝 Catatan (opsional)</label>
-                            <textarea name="notes" class="form-control" rows="2" placeholder="Catatan peminjaman..."></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batal</button>
-                    <button type="submit" class="btn btn-primary">
-                        <i class="ki-duotone ki-check fs-2"></i> Simpan
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 @endsection
 
 @push('custom-js')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    // No DataTable needed — using custom pagination
+    // Focus search on Ctrl+K
+    document.addEventListener('keydown', function (e) {
+        if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+            e.preventDefault();
+            const input = document.querySelector('input[name="member"]');
+            if (input) input.focus();
+        }
+    });
 });
 </script>
 @endpush
