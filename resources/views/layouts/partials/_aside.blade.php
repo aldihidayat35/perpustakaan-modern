@@ -10,17 +10,7 @@
 
     {{-- Aside Header (brand + user) --}}
     <div class="aside-header flex-column-auto py-4 px-4" id="kt_aside_header">
-        <a href="{{ route('admin.dashboard') }}" class="d-flex align-items-center gap-2 text-decoration-none">
-            @if(app_setting('app_logo'))
-            <img src="{{ asset('storage/' . app_setting('app_logo')) }}" alt="Logo"
-                style="height:36px; width:auto; object-fit:contain; border-radius:4px; border:2px solid var(--comic-orange);"/>
-            @else
-            <span style="font-size:1.8rem;">📚</span>
-            @endif
-            <span style="font-family:'Bangers',cursive; font-size:1.05rem; color:var(--comic-orange); letter-spacing:2px; line-height:1.1;">
-                {{ app_setting('app_name', config('app.name')) }}
-            </span>
-        </a>
+   
         <div class="aside-user d-flex align-items-center gap-3 py-4">
             <div class="symbol symbol-45px">
                 @if(auth()->user()->avatar)
