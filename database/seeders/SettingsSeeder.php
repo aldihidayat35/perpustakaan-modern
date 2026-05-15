@@ -62,6 +62,13 @@ class SettingsSeeder extends Seeder
                 'label' => 'Nomor Pengirim',
             ],
             [
+                'key' => 'whatsapp_session_id',
+                'value' => '',
+                'type' => 'text',
+                'group' => 'whatsapp',
+                'label' => 'Session ID',
+            ],
+            [
                 'key' => 'whatsapp_is_active',
                 'value' => '0',
                 'type' => 'boolean',

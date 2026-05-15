@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class WhatsAppLog extends Model
 {
+    protected $table = 'whatsapp_logs';
+
     protected $fillable = [
         'member_id',
         'phone',

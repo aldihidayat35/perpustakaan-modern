@@ -18,6 +18,7 @@ class UpdateWhatsAppSettingsRequest extends FormRequest
         return [
             'api_key' => ['nullable', 'string'],
             'sender' => ['nullable', 'string'],
+            'session_id' => ['nullable', 'string'],
             'is_active' => ['nullable', 'boolean'],
             'reminder_days' => ['nullable', 'integer', 'min:0'],
         ];

@@ -1,20 +1,17 @@
 {
-      "enableAllProjectMcpServers": true,
-
-
-    "permissions": {
+  "permissions": {
     "allow": [
-         "Read(//c/laragon/www/**)",
+      "Read(//c/laragon/www/**)",
       "Write(//c/laragon/www/**)",
       "Edit(//c/laragon/www/**)",
-
       "Bash(php artisan *)",
       "Bash(composer *)",
       "Bash(npm *)",
       "Bash(node *)",
       "Bash(git *)",
-
-      "Bash(*)"
+      "Bash(*)",
+      "WebFetch(domain:jokiin35.space)"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true
 }

@@ -101,11 +101,11 @@
 
                     <div class="mb-4">
                         <label class="form-label fw-bold" style="font-family:'Fredoka One', cursive; font-size:0.78rem; letter-spacing:1px;">
-                            📱 NOMOR PENGIRIM
+                            📱 SESSION ID
                         </label>
-                        <input type="text" name="sender" class="form-control"
-                            value="{{ $settings['sender'] }}"
-                            placeholder="08xxxxxxxxx"/>
+                        <input type="text" name="session_id" class="form-control"
+                            value="{{ $settings['session_id'] }}"
+                            placeholder="wa joki real 2"/>
                     </div>
 
                     <div class="mb-4">
@@ -121,12 +121,12 @@
                         <label class="form-label fw-bold" style="font-family:'Fredoka One', cursive; font-size:0.78rem; letter-spacing:1px;">
                             ⚡ AKTIFKAN WHATSAPP
                         </label>
-                        <div class="toggle-wa-active {{ $settings['is_active'] ? 'is-active' : '' }}" onclick="this.classList.toggle('is-active'); this.querySelector('input[name=is_active]').checked = this.classList.contains('is-active');">
+                        <div class="toggle-wa-active {{ $settings['is_active'] ? 'is-active' : '' }}" onclick="this.classList.toggle('is-active'); var cb = this.querySelector('input[type=checkbox]'); cb.checked = this.classList.contains('is-active');">
                             <div class="toggle-wa-switch"></div>
                             <span style="font-family:'Fredoka One', cursive; font-size:0.85rem; font-weight:900; color:var(--comic-dark);">
                                 {{ $settings['is_active'] ? '✅ AKTIF — Notifikasi aktif' : '⏸️ NONAKTIF — Notifikasi dinonaktifkan' }}
                             </span>
-                            <input type="hidden" name="is_active" value="{{ $settings['is_active'] ? '1' : '0' }}"/>
+                            <input type="checkbox" name="is_active" value="1" class="d-none" {{ $settings['is_active'] ? 'checked' : '' }}/>
                         </div>
                     </div>
 

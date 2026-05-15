@@ -18,6 +18,11 @@ class WhatsAppSettingsService
         return (string) Setting::getValue('whatsapp_sender', '');
     }
 
+    public function getSessionId(): string
+    {
+        return (string) Setting::getValue('whatsapp_session_id', '');
+    }
+
     public function isActive(): bool
     {
         return (bool) Setting::getValue('whatsapp_is_active', false);
@@ -32,6 +37,7 @@ class WhatsAppSettingsService
     {
         Setting::setValue('whatsapp_api_key', $data['api_key'] ?? '', 'text', 'whatsapp');
         Setting::setValue('whatsapp_sender', $data['sender'] ?? '', 'text', 'whatsapp');
+        Setting::setValue('whatsapp_session_id', $data['session_id'] ?? '', 'text', 'whatsapp');
         Setting::setValue('whatsapp_is_active', (bool) ($data['is_active'] ?? false), 'boolean', 'whatsapp');
         Setting::setValue('whatsapp_reminder_days', (int) ($data['reminder_days'] ?? 1), 'number', 'whatsapp');
     }
