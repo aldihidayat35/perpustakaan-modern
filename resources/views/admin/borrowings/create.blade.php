@@ -273,41 +273,11 @@
 #qr-reader { border: 3px solid var(--comic-dark) !important; box-shadow: 4px 4px 0 var(--comic-dark) !important; border-radius: 0 !important; }
 #qr-reader video { border-radius: 0 !important; }
 
-/* ── Loading Overlay ── */
-.submit-loading {
-    display: none;
-    position: fixed; inset: 0;
-    background: rgba(0,0,0,0.6);
-    z-index: 9999;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-    gap: 16px;
-}
-.submit-loading.show { display: flex; }
-.submit-loading .spinner {
-    width: 60px; height: 60px;
-    border: 5px solid rgba(255,255,255,0.2);
-    border-top-color: var(--comic-orange);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.submit-loading-text {
-    font-family: 'Bangers', cursive;
-    font-size: 1.3rem;
-    color: #fff;
-    letter-spacing: 2px;
-}
+/* ── QR Reader styling ── */
 </style>
 @endpush
 
 @section('content')
-<div id="submit-loading-overlay" class="submit-loading">
-    <div class="spinner"></div>
-    <div class="submit-loading-text">⏳ MEMPROSES PEMINJAMAN...</div>
-</div>
-
 <div class="row g-5">
     {{-- LEFT COLUMN: Scanner + Input + Summary --}}
     <div class="col-lg-5">
@@ -943,9 +913,6 @@
             return;
         }
 
-        const overlay = document.getElementById('submit-loading-overlay');
-        overlay.classList.add('show');
-
         try {
             const res = await fetch('/admin/borrowings', {
                 method: 'POST',
@@ -988,8 +955,6 @@
             }
         } catch (err) {
             Swal.fire({ icon: 'error', title: 'Error', text: 'Terjadi kesalahan koneksi.' });
-        } finally {
-            overlay.classList.remove('show');
         }
     });
 

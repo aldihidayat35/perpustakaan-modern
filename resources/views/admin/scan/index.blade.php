@@ -167,7 +167,7 @@
 @endsection
 
 @push('vendor-js')
-<script src="https://unpkg.com/html5-qrcode@2.0.3/min/html5-qrcode.min.js"></script>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 @endpush
 
@@ -175,6 +175,9 @@
 <script>
 (function () {
     let selectedBooks = [];
+    let lastScannedCode = '';
+    let lastScanTime = 0;
+    const SCAN_COOLDOWN_MS = 1500; // Cegah scan spam dalam 1.5 detik
 
     function updateUI() {
         const container = document.getElementById('selected-books');
@@ -251,13 +254,39 @@
         if (e.key === 'Enter') { e.preventDefault(); lookupBook(this.value.trim()); }
     });
 
-    // QR Scanner
+    // QR Scanner — sensitivitas tinggi untuk QR buram/kecil
     const html5QrCode = new Html5Qrcode("qr-reader");
+
+    const qrConfig = {
+        fps: 30,                          // 30fps = lebih cepat tangkep QR
+        qrbox: { width: 300, height: 300 },// area scan lebih besar
+        aspectRatio: 1.333333,             // 4:3 ratio — optimal untuk kamera hp
+        useOptimizeCanvas: true,          // canvas sharpening otomatis
+        experimentalFeatures: {
+            useBarCodeDetectorIfSupported: false,
+        },
+        formatsToSupport: [0],            // HANYA QR Code — ringkas, tidak sia-siakan resource
+        rememberingLastUsedCamera: true,
+    };
+
+    // Decode success —加上 debounce biar tidak double-trigger
+    function onScanSuccess(decodedText) {
+        const now = Date.now();
+        // Cegah scan berulang kode yang sama dalam 1.5 detik
+        if (decodedText === lastScannedCode && now - lastScanTime < SCAN_COOLDOWN_MS) {
+            return;
+        }
+        lastScannedCode = decodedText;
+        lastScanTime = now;
+
+        lookupBook(decodedText);
+    }
+
     html5QrCode.start(
-        { facingMode: "environment" },
-        { fps: 10, qrbox: { width: 250, height: 250 } },
-        (decodedText) => { lookupBook(decodedText); },
-        () => {}
+        { facingMode: { ideal: "environment" } },
+        qrConfig,
+        onScanSuccess,
+        () => {} // ignore per-frame errors
     ).catch(() => {
         document.getElementById('qr-reader').innerHTML = `
             <div class="alert" style="background:#fff8f0; border:2px solid var(--comic-orange); border-radius:0; padding:12px;">
@@ -286,6 +315,7 @@
         });
         const data = await response.json();
         if (response.ok) {
+            html5QrCode.stop().catch(() => {});
             Swal.fire({ icon: 'success', title: 'Berhasil!', text: 'Peminjaman berhasil disimpan.' }).then(() => {
                 window.location.href = '{{ route('admin.borrowings.index') }}';
             });

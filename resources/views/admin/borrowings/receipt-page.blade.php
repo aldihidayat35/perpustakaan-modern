@@ -69,6 +69,88 @@
     font-size: 0.82rem;
     color: rgba(255,255,255,0.85);
 }
+
+@media print {
+    /* FORSA ALL WRAPPER PARENTS TO DISPLAY BLOCK SO .receipt-thermal BECOMES VISIBLE */
+    body,
+    #kt_body,
+    .d-flex,
+    .flex-column,
+    .flex-root,
+    .flex-row,
+    .flex-row-fluid,
+    .flex-column-fluid,
+    .flex-column-reverse,
+    .page,
+    .page.d-flex,
+    .wrapper,
+    .content,
+    .content.d-flex,
+    .content.flex-column-fluid,
+    .post,
+    .post.d-flex,
+    #kt_post,
+    #kt_content_container,
+    .container-fluid,
+    .receipt-page-wrap,
+    .card,
+    .card-body,
+    .receipt-thermal {
+        display: block !important;
+        visibility: visible !important;
+        width: auto !important;
+        height: auto !important;
+        max-height: none !important;
+        overflow: visible !important;
+        position: static !important;
+        clip: auto !important;
+        float: none !important;
+        background: #fff !important;
+    }
+    /* SEMBUNYIKAN KOMPONEN WEB YANG TIDAK PERLU */
+    .success-banner,
+    .receipt-action-bar,
+    .text-center,
+    .breadcrumb,
+    .page-title,
+    .page-title-section,
+    .breadcrumb-separatorless,
+    .breadcrumb-item,
+    .aside,
+    .header,
+    .header-brand,
+    .toolbar,
+    #kt_toolbar,
+    #kt_header,
+    .footer,
+    #kt_footer,
+    .scrolltop,
+    nav,
+    .kt_app_toggle,
+    .btn,
+    a[href]:after,
+    .alert,
+    .toast,
+    .modal,
+    .modal-backdrop {
+        display: none !important;
+        visibility: hidden !important;
+        width: 0 !important;
+        height: 0 !important;
+        max-height: 0 !important;
+        overflow: hidden !important;
+        position: absolute !important;
+        clip: rect(0,0,0,0) !important;
+        float: none !important;
+        pointer-events: none !important;
+    }
+    /* STRUK — UKURAN KERTAS 80MM THERMAL */
+    .receipt-thermal {
+        max-width: 320px !important;
+        margin: 0 auto !important;
+        padding: 10px 8px !important;
+    }
+}
 </style>
 @endpush
 

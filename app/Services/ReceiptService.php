@@ -59,6 +59,7 @@ class ReceiptService
             'total_books' => $totalBooks,
             'books' => $books,
             'notes' => $borrowing->notes,
+            'borrowing' => $borrowing, // ⬅️ lempar object ke view untuk daysOverdue()
             'printed_at' => now()->format('d M Y, H:i').' WIB',
             'printed_by' => auth()->user()?->name ?? 'Admin',
         ];
@@ -71,7 +72,7 @@ class ReceiptService
     {
         $data = $this->generateReceiptData($borrowing);
 
-        $pdf = Pdf::loadView('admin.borrowings.receipt', $data);
+        $pdf = Pdf::loadView('admin.borrowings.receipt-pdf', $data);
         $pdf->setPaper([0, 0, 283.46, 600], 'portrait'); // ~80mm thermal paper
 
         return $pdf;
@@ -80,7 +81,7 @@ class ReceiptService
     /**
      * Download PDF receipt
      */
-    public function downloadPdf(Borrowing $borrowing): StreamedResponse
+    public function downloadPdf(Borrowing $borrowing): \Illuminate\Http\Response
     {
         $pdf = $this->generatePdf($borrowing);
         $filename = 'STRUK-'.$borrowing->transaction_code.'.pdf';
@@ -95,6 +96,6 @@ class ReceiptService
     {
         $data = $this->generateReceiptData($borrowing);
 
-        return View::make('admin.borrowings.receipt', $data)->render();
+        return View::make('admin.borrowings.receipt-pdf', $data)->render();
     }
 }

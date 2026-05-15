@@ -166,7 +166,7 @@ class BorrowingApiController extends Controller
      * GET /api/borrowings/{id}/receipt/pdf
      * Download receipt PDF
      */
-    public function receiptPdf(Borrowing $borrowing): StreamedResponse
+    public function receiptPdf(Borrowing $borrowing): \Illuminate\Http\Response
     {
         return $this->receiptService->downloadPdf($borrowing);
     }

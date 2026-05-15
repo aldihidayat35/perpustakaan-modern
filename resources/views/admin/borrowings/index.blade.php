@@ -90,6 +90,20 @@
 }
 .btn-action-sm { min-width: 28px; min-height: 28px; padding: 3px 7px !important; font-size: 0.7rem !important; }
 
+/* ── Dropdown Aksi ── */
+.aksi-dropdown .aksi-menu .aksi-item {
+    text-decoration: none;
+    transition: background 0.15s;
+}
+.aksi-dropdown .aksi-menu .aksi-item:hover {
+    background: rgba(255,107,53,0.08);
+}
+.aksi-trigger.aktif {
+    background: var(--comic-orange) !important;
+    color: #fff !important;
+}
+.aksi-trigger.aktif i { color: #fff !important; }
+
 /* ── Search Box ── */
 .search-member-input {
     border: 2px solid rgba(255,255,255,0.3) !important;
@@ -269,35 +283,51 @@
                             <span class="badge {{ $s['class'] }}" style="font-size:0.72rem; border-radius:0 !important; border:2px solid currentColor !important;">{{ $s['text'] }}</span>
                         </td>
                         <td class="text-end">
-                            <div class="d-flex justify-content-end gap-1 flex-wrap">
-                                {{-- Detail Button --}}
-                                <a href="{{ route('admin.borrowings.receipt', $borrowing) }}"
-                                    class="btn btn-action btn-action-sm"
-                                    style="background:#fff; color:var(--comic-dark);"
-                                    title="Lihat Struk">
-                                    <i class="ki-duotone ki-bill fs-5" style="color:var(--comic-dark) !important;"></i>
-                                </a>
+                            <div class="d-flex justify-content-end align-items-center gap-1">
 
-                                {{-- Reminder WA (hanya aktif) --}}
-                                @if($borrowing->status->value === 'active')
-                                    <form method="POST" action="{{ route('admin.borrowings.remind', $borrowing) }}" class="d-inline">
-                                        @csrf
-                                        <button type="submit" class="btn btn-action btn-action-sm"
-                                            style="background:#25D366; color:#fff; border-color:#25D366 !important;"
-                                            title="Kirim Reminder WA"
-                                            onclick="return confirm('Kirim reminder WhatsApp ke {{ $borrowing->member->name }}?')">
-                                            <i class="ki-duotone ki-message-text fs-5" style="color:#fff !important;"></i>
-                                        </button>
-                                    </form>
-                                @endif
+                                {{-- Dropdown Aksi ── --}}
+                                <div class="aksi-dropdown" style="position:relative;">
+                                    <button type="button"
+                                        class="btn btn-sm aksi-trigger"
+                                        onclick="toggleAksi(this, event)"
+                                        style="background:var(--comic-dark); color:var(--comic-orange); border:2px solid var(--comic-dark);
+                                               box-shadow:2px 2px 0 var(--comic-orange); border-radius:0; font-family:'Fredoka One',cursive;
+                                               font-size:0.72rem; font-weight:900; letter-spacing:1px; padding:5px 12px;
+                                               display:flex; align-items:center; gap:5px; transition:all 0.18s;">
+                                        ⚡ AKSI
+                                        <i class="ki-duotone ki-arrows-circle fs-5" style="color:var(--comic-orange);"></i>
+                                    </button>
+                                    <div class="aksi-menu" style="display:none; position:absolute; right:0; top:calc(100% + 4px);
+                                        background:#fff; border:2px solid var(--comic-dark); box-shadow:4px 4px 0 var(--comic-dark);
+                                        min-width:160px; z-index:50; border-radius:0;">
+                                        <a href="{{ route('admin.borrowings.receipt', $borrowing) }}"
+                                            class="aksi-item" style="display:flex; align-items:center; gap:8px; padding:9px 14px;
+                                            text-decoration:none; border-bottom:1px solid rgba(26,26,46,0.08);">
+                                            <i class="ki-duotone ki-doc-text fs-5" style="color:var(--comic-dark);"></i>
+                                            <span style="font-family:'Fredoka One',cursive; font-size:0.78rem; color:var(--comic-dark); font-weight:700;">Lihat Struk</span>
+                                        </a>
+                                        @if($borrowing->status->value === 'active')
+                                            <form method="POST" action="{{ route('admin.borrowings.remind', $borrowing) }}">
+                                                @csrf
+                                                <button type="submit" class="aksi-item w-100"
+                                                    onclick="return confirm('Kirim reminder WA ke {{ $borrowing->member->name }}?')"
+                                                    style="display:flex; align-items:center; gap:8px; padding:9px 14px;
+                                                    border:none; background:transparent; cursor:pointer; border-bottom:1px solid rgba(26,26,46,0.08);">
+                                                    <i class="ki-duotone ki-message-text fs-5" style="color:#25D366;"></i>
+                                                    <span style="font-family:'Fredoka One',cursive; font-size:0.78rem; color:var(--comic-dark); font-weight:700;">Kirim Reminder WA</span>
+                                                </button>
+                                            </form>
+                                        @endif
+                                        <a href="{{ route('admin.borrowings.receipt.pdf', $borrowing) }}"
+                                            target="_blank"
+                                            class="aksi-item" style="display:flex; align-items:center; gap:8px; padding:9px 14px;
+                                            text-decoration:none; border-bottom:none;">
+                                            <i class="ki-duotone ki-file-down fs-5" style="color:var(--comic-orange);"></i>
+                                            <span style="font-family:'Fredoka One',cursive; font-size:0.78rem; color:var(--comic-dark); font-weight:700;">Download PDF</span>
+                                        </a>
+                                    </div>
+                                </div>
 
-                                {{-- Download PDF --}}
-                                <a href="{{ route('admin.borrowings.receipt.pdf', $borrowing) }}"
-                                    class="btn btn-action btn-action-sm"
-                                    style="background:#fff; color:var(--comic-orange);"
-                                    title="Download PDF" target="_blank">
-                                    <i class="ki-duotone ki-file-down fs-5" style="color:var(--comic-orange) !important;"></i>
-                                </a>
                             </div>
                         </td>
                     </tr>
@@ -346,6 +376,34 @@ document.addEventListener('DOMContentLoaded', function () {
             if (input) input.focus();
         }
     });
+
+    // Close all dropdowns when clicking outside
+    document.addEventListener('click', function (e) {
+        if (!e.target.closest('.aksi-dropdown')) {
+            document.querySelectorAll('.aksi-menu').forEach(function (menu) {
+                menu.style.display = 'none';
+            });
+            document.querySelectorAll('.aksi-trigger').forEach(function (btn) {
+                btn.classList.remove('aktif');
+            });
+        }
+    });
 });
+
+// Toggle aksi dropdown
+function toggleAksi(btn, e) {
+    e.stopPropagation();
+    var menu = btn.closest('.aksi-dropdown').querySelector('.aksi-menu');
+    var isOpen = menu.style.display === 'block';
+
+    // Close all
+    document.querySelectorAll('.aksi-menu').forEach(function (m) { m.style.display = 'none'; });
+    document.querySelectorAll('.aksi-trigger').forEach(function (b) { b.classList.remove('aktif'); });
+
+    if (!isOpen) {
+        menu.style.display = 'block';
+        btn.classList.add('aktif');
+    }
+}
 </script>
 @endpush

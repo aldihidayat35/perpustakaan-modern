@@ -1,17 +1,24 @@
-{{-- STRUK PEMINJAMAN - Partial View (tanpa HTML wrapper) --}}
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Struk Peminjaman {{ $transaction_code }}</title>
 <style>
-/* ── STRUK — Styling standalone untuk print/cetak langsung ── */
-.receipt-thermal {
-    max-width: 320px;
-    margin: 0 auto;
-    padding: 12px 10px;
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
     font-family: 'Courier New', Courier, monospace;
     background: #fff;
     color: #000;
     font-size: 12px;
     line-height: 1.4;
+    padding: 0;
 }
-.receipt-thermal * { box-sizing: border-box; margin: 0; padding: 0; }
+.receipt-thermal {
+    max-width: 320px;
+    margin: 0 auto;
+    padding: 12px 10px;
+}
 
 /* Header */
 .receipt-header { text-align: center; border-bottom: 2px dashed #000; padding-bottom: 8px; margin-bottom: 8px; }
@@ -62,7 +69,8 @@
 /* Fine */
 .fine-box { background: #fff3cd; border: 2px solid #000; padding: 6px 8px; font-size: 11px; font-weight: bold; }
 </style>
-
+</head>
+<body>
 <div class="receipt-thermal">
     {{-- HEADER --}}
     <div class="receipt-header">
@@ -83,28 +91,28 @@
     {{-- BORROWING DATES --}}
     <hr class="divider-thick">
     <div class="info-row">
-        <span class="label">📅 Tgl Pinjam</span>
+        <span class="label">Tgl Pinjam</span>
         <span class="value">{{ $loan_date }}</span>
     </div>
     <div class="info-row">
-        <span class="label">⏰ Jatuh Tempo</span>
+        <span class="label">Jatuh Tempo</span>
         <span class="value" style="{{ $is_overdue ? 'color:#dc3545;' : '' }}">{{ $due_date }}</span>
     </div>
     @if($return_date)
     <div class="info-row">
-        <span class="label">✅ Tgl Kembali</span>
+        <span class="label">Tgl Kembali</span>
         <span class="value">{{ $return_date }}</span>
     </div>
     @endif
     <div class="info-row">
-        <span class="label">📕 Total Buku</span>
+        <span class="label">Total Buku</span>
         <span class="value">{{ $total_books }} buku</span>
     </div>
     @if($status !== 'returned')
     <div class="info-row">
-        <span class="label">📊 Status</span>
+        <span class="label">Status</span>
         <span class="status-badge {{ $is_overdue ? 'status-overdue' : 'status-active' }}">
-            {{ $is_overdue ? '⚠️ TERLAMBAT ' . ($borrowing->daysOverdue() ?? 0) . ' HR' : $status_label }}
+            {{ $is_overdue ? 'TERLAMBAT ' . ($borrowing->daysOverdue() ?? 0) . ' HR' : $status_label }}
         </span>
     </div>
     @endif
@@ -129,14 +137,14 @@
     {{-- NOTES --}}
     @if($notes)
     <div style="font-size:10px; color:#555; font-style:italic; padding:4px 0;">
-        📝 {{ $notes }}
+        Catatan: {{ $notes }}
     </div>
     @endif
 
     {{-- FINE INFO --}}
     @if(isset($fine) && $fine)
     <div class="fine-box" style="margin-top:6px;">
-        💰 DENDA: Rp {{ $fine['amount'] }}
+        DENDA: Rp {{ $fine['amount'] }}
         <span class="status-badge status-overdue" style="margin-left:6px; font-size:9px;">{{ $fine['status'] }}</span>
     </div>
     @endif
@@ -144,7 +152,7 @@
     {{-- FOOTER --}}
     <hr class="divider-thick">
     <div class="footer-note">
-        📌 Harap kembalikan buku tepat waktu<br>
+        Harap kembalikan buku tepat waktu<br>
         Buku terlambat akan dikenakan denda
     </div>
     <div class="footer-time">
@@ -152,3 +160,5 @@
         Operator: {{ $printed_by }}
     </div>
 </div>
+</body>
+</html>

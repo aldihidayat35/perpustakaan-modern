@@ -11,7 +11,7 @@
         <div class="menu-item">
             <a class="menu-link {{ request()->routeIs('admin.dashboard') ? 'active' : '' }}" href="{{ route('admin.dashboard') }}">
                 <span class="menu-icon">
-                    <i class="ki-duotone ki-element-11 fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
+                    <i class="ki-duotone ki-home fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                 </span>
                 <span class="menu-title">Dashboard</span>
             </a>
@@ -36,7 +36,7 @@
         <div class="menu-item">
             <a class="menu-link {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}" href="{{ route('admin.categories.index') }}">
                 <span class="menu-icon">
-                    <i class="ki-duotone ki-tablet-ks fs-2"><span class="path1"></span><span class="path2"></span></i>
+                    <i class="ki-duotone ki-category fs-2"><span class="path1"></span><span class="path2"></span></i>
                 </span>
                 <span class="menu-title">Kategori</span>
             </a>
@@ -70,7 +70,7 @@
         <div class="menu-item">
             <a class="menu-link {{ request()->routeIs('admin.borrowings.*') ? 'active' : '' }}" href="{{ route('admin.borrowings.index') }}">
                 <span class="menu-icon">
-                    <i class="ki-duotone ki-arrow-up-right-square fs-2"><span class="path1"></span><span class="path2"></span></i>
+                    <i class="ki-duotone ki-parcel fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                 </span>
                 <span class="menu-title">Peminjaman</span>
             </a>
@@ -79,7 +79,7 @@
         <div class="menu-item">
             <a class="menu-link {{ request()->routeIs('admin.returns.*') ? 'active' : '' }}" href="{{ route('admin.returns.index') }}">
                 <span class="menu-icon">
-                    <i class="ki-duotone ki-arrow-down-left-square fs-2"><span class="path1"></span><span class="path2"></span></i>
+                    <i class="ki-duotone ki-delivery fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span><span class="path5"></span></i>
                 </span>
                 <span class="menu-title">Pengembalian</span>
             </a>
@@ -94,7 +94,7 @@
             </a>
         </div>
 
-        {{-- Section: Laporan & Sistem --}}
+        {{-- Section: Sistem --}}
         <div class="menu-item pt-5">
             <div class="menu-content">
                 <span class="menu-heading fw-bold text-uppercase fs-7">Sistem</span>
@@ -102,18 +102,9 @@
         </div>
 
         <div class="menu-item">
-            <a class="menu-link {{ request()->routeIs('admin.scan.*') ? 'active' : '' }}" href="{{ route('admin.scan.index') }}">
-                <span class="menu-icon">
-                    <i class="ki-duotone ki-tablet-scan fs-2"><span class="path1"></span><span class="path2"></span></i>
-                </span>
-                <span class="menu-title">Scan QR</span>
-            </a>
-        </div>
-
-        <div class="menu-item">
             <a class="menu-link {{ request()->routeIs('admin.reports.*') ? 'active' : '' }}" href="{{ route('admin.reports.index') }}">
                 <span class="menu-icon">
-                    <i class="ki-duotone ki-chart-line-down fs-2"><span class="path1"></span><span class="path2"></span></i>
+                    <i class="ki-duotone ki-chart-simple fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                 </span>
                 <span class="menu-title">Laporan</span>
             </a>
@@ -122,7 +113,7 @@
         <div class="menu-item">
             <a class="menu-link {{ request()->routeIs('admin.audit-logs.*') ? 'active' : '' }}" href="{{ route('admin.audit-logs.index') }}">
                 <span class="menu-icon">
-                    <i class="ki-duotone ki-scan-barcode fs-2"><span class="path1"></span><span class="path2"></span></i>
+                    <i class="ki-duotone ki-information fs-2"><span class="path1"></span><span class="path2"></span></i>
                 </span>
                 <span class="menu-title">Audit Log</span>
             </a>
@@ -138,7 +129,7 @@
         <div class="menu-item">
             <a class="menu-link {{ request()->routeIs('admin.hero-slides.*') ? 'active' : '' }}" href="{{ route('admin.hero-slides.index') }}">
                 <span class="menu-icon">
-                    <i class="ki-duotone ki-picture fs-2"><span class="path1"></span><span class="path2"></span></i>
+                    <i class="ki-duotone ki-design fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span><span class="path4"></span></i>
                 </span>
                 <span class="menu-title">Hero Slide</span>
             </a>
@@ -147,7 +138,7 @@
         <div class="menu-item">
             <a class="menu-link {{ request()->routeIs('admin.settings.index') ? 'active' : '' }}" href="{{ route('admin.settings.index') }}">
                 <span class="menu-icon">
-                    <i class="ki-duotone ki-setting-2 fs-2"><span class="path1"></span><span class="path2"></span></i>
+                    <i class="ki-duotone ki-gear fs-2"><span class="path1"></span><span class="path2"></span></i>
                 </span>
                 <span class="menu-title">Data Aplikasi</span>
             </a>
@@ -156,7 +147,7 @@
         <div class="menu-item">
             <a class="menu-link {{ request()->routeIs('admin.settings.whatsapp*') ? 'active' : '' }}" href="{{ route('admin.settings.whatsapp') }}">
                 <span class="menu-icon">
-                    <i class="ki-duotone ki-whatsapp fs-2"><span class="path1"></span><span class="path2"></span></i>
+                    <i class="ki-duotone ki-message-text fs-2"><span class="path1"></span><span class="path2"></span><span class="path3"></span></i>
                 </span>
                 <span class="menu-title">WhatsApp API</span>
             </a>

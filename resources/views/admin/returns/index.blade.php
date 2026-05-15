@@ -143,9 +143,14 @@
                         {{-- Anggota --}}
                         <td>
                             <div class="d-flex align-items-center gap-2">
-                                <div class="return-member-avatar">
-                                    {{ strtoupper(substr($borrowing->member->name, 0, 1)) }}
-                                </div>
+                                @if($borrowing->member->photo)
+                                    <img src="{{ asset('storage/' . $borrowing->member->photo) }}" alt="{{ $borrowing->member->name }}"
+                                        class="return-member-avatar" style="width:38px; height:38px; object-fit:cover; border-radius:0; flex-shrink:0;"/>
+                                @else
+                                    <div class="return-member-avatar">
+                                        {{ strtoupper(substr($borrowing->member->name, 0, 1)) }}
+                                    </div>
+                                @endif
                                 <div>
                                     <span class="fw-bold text-dark d-block" style="font-size:0.88rem;">
                                         {{ $borrowing->member->name }}
@@ -233,9 +238,14 @@
                                                 {{-- Header Info --}}
                                                 <div style="background:var(--comic-cream); border:2px solid var(--comic-dark); box-shadow:4px 4px 0 var(--comic-dark); padding:14px 18px; margin-bottom:20px;">
                                                     <div style="display:flex; align-items:center; gap:12px;">
-                                                        <div class="return-member-avatar" style="width:44px; height:44px; font-size:1.1rem;">
-                                                            {{ strtoupper(substr($borrowing->member->name, 0, 1)) }}
-                                                        </div>
+                                                        @if($borrowing->member->photo)
+                                                            <img src="{{ asset('storage/' . $borrowing->member->photo) }}" alt="{{ $borrowing->member->name }}"
+                                                                style="width:44px; height:44px; object-fit:cover; border:2px solid var(--comic-dark); box-shadow:3px 3px 0 var(--comic-dark); flex-shrink:0;"/>
+                                                        @else
+                                                            <div class="return-member-avatar" style="width:44px; height:44px; font-size:1.1rem;">
+                                                                {{ strtoupper(substr($borrowing->member->name, 0, 1)) }}
+                                                            </div>
+                                                        @endif
                                                         <div>
                                                             <div style="font-family:'Bangers',cursive; font-size:1.1rem; letter-spacing:1px; color:var(--comic-dark);">
                                                                 {{ $borrowing->transaction_code }}
